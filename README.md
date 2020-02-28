@@ -1,7 +1,11 @@
-# itrlog
+# ITRLog
+The simplified usage of Zap and Lumberjack logging systems in Go for easier usage of the library.
+
+# Installation
+go get github.com/itrepablik/itrlog
 
 # Usage
-This is how you can use the simplified initializations for Zap and Lamberjack logging libraries.
+This is how you can use the simplified initializations for Zap and Lumberjack logging libraries.
 ```
 package main
 
