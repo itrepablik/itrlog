@@ -1,5 +1,5 @@
 # ITRLog
-The simplified usage of Zap and Lumberjack logging systems in Go for easier usage of the library.
+The simplified usage of [Zap](https://github.com/uber-go/zap) and [Lumberjack](https://github.com/natefinch/lumberjack) logging systems in Go for easier usage of the library.
 
 # Installation
 go get github.com/itrepablik/itrlog
