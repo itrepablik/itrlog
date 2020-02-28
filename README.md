@@ -6,8 +6,6 @@ This is how you can use the simplified initializations for Zap and Lamberjack lo
 package main
 
 import (
-	"fmt"
-
 	"github.com/itrepablik/itrlog"
 	"go.uber.org/zap"
 )
@@ -22,7 +20,6 @@ func init() {
 }
 
 func main() {
-	fmt.Println("Hello World")
 	Sugar.Error("error type of log...")
 }
 ```
