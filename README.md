@@ -2,7 +2,9 @@
 The simplified usage of [Zap](https://github.com/uber-go/zap) and [Lumberjack](https://github.com/natefinch/lumberjack) logging systems in Go for easier usage of the library.
 
 # Installation
+```
 go get github.com/itrepablik/itrlog
+```
 
 # Usage
 This is how you can use the simplified initializations for Zap and Lumberjack logging libraries.
@@ -27,3 +29,5 @@ func main() {
 	Sugar.Error("error type of log...")
 }
 ```
+
+It will auto create the "logs" folder in your root directory of your project, but, ofcourse, it's upto you which directory to point your log files and the "_test_log_" is the initial log filename.
