@@ -31,3 +31,6 @@ func main() {
 ```
 
 It will auto create the **logs** folder in your root directory of your project, but, ofcourse, it's upto you which directory to point your log files and the **test_log_** is the initial log filename.
+
+# License
+Code is distributed under MIT license, feel free to use it in your proprietary projects as well.
