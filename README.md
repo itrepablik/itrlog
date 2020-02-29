@@ -1,4 +1,5 @@
 ![ITRLog](https://user-images.githubusercontent.com/58651329/75599806-682bd300-5ae3-11ea-9d9b-adb175589143.png)
+
 The simplified usage of [Zap](https://github.com/uber-go/zap) and [Lumberjack](https://github.com/natefinch/lumberjack) logging systems in Go for easier usage of the library.
 
 # Installation
