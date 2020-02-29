@@ -26,11 +26,21 @@ func init() {
 }
 
 func main() {
-	Sugar.Error("error type of log...")
+	// Basic logging message
+	Sugar.Info("basic info log output...")
+	Sugar.Error("basic error log output...")
+	Sugar.Warn("basic warning log output...")
+	Sugar.Debug("basic debug log output...")
+	
+	// Structured context as loosely typed key-value pairs.
+	Sugar.Infow("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
+	Sugar.Errorw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
+	Sugar.Warnw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
+	Sugar.Debugw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
 }
 ```
 
-It will auto create the **logs** folder in your root directory of your project, but, ofcourse, it's upto you which directory to point your log files and the **test_log_** is the initial log filename.
+It will auto create the **logs** folder in your root directory of your project, but, ofcourse, it's upto you which directory to point your log files and the **test_log_** is the initial log filename.  The logging output it's a **JSON** format for easy integration with any of your existing softwares to keep track the logs information.
 
 # License
 Code is distributed under MIT license, feel free to use it in your proprietary projects as well.
