@@ -21,7 +21,7 @@ import (
 var Sugar *zap.SugaredLogger
 
 func init() {
-	Sugar = itrlog.InitLog(50, 28, "logs", "_test_log_")
+	Sugar = itrlog.InitLog(50, 28, "logs", "test_log_")
 	Sugar.Info("hello test sugar info log...")
 }
 
@@ -30,4 +30,4 @@ func main() {
 }
 ```
 
-It will auto create the "logs" folder in your root directory of your project, but, ofcourse, it's upto you which directory to point your log files and the "_test_log_" is the initial log filename.
+It will auto create the **logs** folder in your root directory of your project, but, ofcourse, it's upto you which directory to point your log files and the **test_log_** is the initial log filename.
