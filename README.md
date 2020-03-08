@@ -4,7 +4,7 @@ The simplified usage of [Zap](https://github.com/uber-go/zap) and [Lumberjack](h
 
 # Installation
 ```
-go get github.com/itrepablik/itrlog
+go get -u github.com/itrepablik/itrlog
 ```
 
 # Usage
