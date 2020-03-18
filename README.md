@@ -42,7 +42,7 @@ func main() {
 }
 ```
 
-# To use the **itrlog** from other packages, for example:
+## To use the **itrlog** from the other packages, for example:
 ```
 package app
 
