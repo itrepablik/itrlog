@@ -14,14 +14,15 @@ package main
 
 import (
 	"github.com/itrepablik/itrlog"
-	"go.uber.org/zap"
 )
 
 // Sugar zap and lumberjack logger initialization simplified by ITRepablik for easy usage
 // and its declarations to be global throughout your Go' project.
-var Sugar *zap.SugaredLogger
+// Initialize the *itrlog.ITRLogger global variable here.
+var Sugar *itrlog.ITRLogger
 
 func init() {
+	// Specified settings to initialize the itrlog.
 	Sugar = itrlog.InitLog(50, 28, "logs", "test_log_")
 	Sugar.Info("hello test sugar info log...")
 }
