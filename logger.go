@@ -40,7 +40,7 @@ func InitLog(maxSizeInMB, maxAgeInDays int, logFolderName, logInitial string) *I
 
 	logger := zap.New(core)
 	sugar := logger.Sugar()
-	return &ITRLogger{MaxSizeInMB: maxSizeInMB, MaxAgeInDays: maxAgeInDays, LogFolderName: logFolderName, LogInitial: logInitial, Log: sugar}
+	return &ITRLogger{MaxSizeInMB: maxSizeInMB, MaxAgeInDays: maxAgeInDays, LogFolderName: logFolderName, LogInitial: logInitial, Sugar: sugar}
 }
 
 // Debug uses fmt.Sprint to construct and log a message.
