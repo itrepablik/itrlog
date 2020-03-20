@@ -17,9 +17,6 @@ const (
 	_nonStringKeyErrMsg = "Ignored key-value pairs with non-string keys."
 )
 
-// Declared zap sugared logger
-var zapSugar *zap.SugaredLogger
-
 // ITRLogger contains the necessary information to initialize the required parameters for the itrlog package.
 type ITRLogger struct {
 	MaxSizeInMB, MaxAgeInDays int
