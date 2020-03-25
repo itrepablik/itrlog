@@ -16,29 +16,23 @@ import (
 	"github.com/itrepablik/itrlog"
 )
 
-// Sugar zap and lumberjack logger initialization simplified by ITRepablik for easy usage
-// and its declarations to be global throughout your Go' project.
-// Initialize the *itrlog.ITRLogger global variable here.
-var Sugar *itrlog.ITRLogger
-
 func init() {
-	// Specified settings to initialize the itrlog.
-	Sugar = itrlog.InitLog(50, 28, "logs", "test_log_")
-	Sugar.Info("hello test sugar info log...")
+	// Custom settings to initialize the itrlog.
+	itrlog.SetLogInit(50, 90, "logs", "test_log_")
 }
 
 func main() {
 	// Basic logging message
-	Sugar.Info("basic info log output...")
-	Sugar.Error("basic error log output...")
-	Sugar.Warn("basic warning log output...")
-	Sugar.Debug("basic debug log output...")
+	itrlog.Info("basic info log output...")
+	itrlog.Error("basic error log output...")
+	itrlog.Warn("basic warning log output...")
+	itrlog.Debug("basic debug log output...")
 	
 	// Structured context as loosely typed key-value pairs.
-	Sugar.Infow("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
-	Sugar.Errorw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
-	Sugar.Warnw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
-	Sugar.Debugw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
+	itrlog.Infow("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
+	itrlog.Errorw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
+	itrlog.Warnw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
+	itrlog.Debugw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
 }
 ```
 
@@ -50,11 +44,8 @@ import (
 	"github.com/itrepablik/itrlog"
 )
 
-// Sugar type is the *itrlog.ITRLogger initialization
-var Sugar *itrlog.ITRLogger
-
 func CreateUser() {
-	Sugar.Info("User has been created successfully!")
+	itrlog.Info("User has been created successfully!")
 }
 ```
 
