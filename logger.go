@@ -3,6 +3,8 @@ package itrlog
 
 import (
 	"fmt"
+	"strings"
+	"sync"
 	"time"
 
 	"github.com/itrepablik/lumberjack"
@@ -15,6 +17,10 @@ import (
 const (
 	_oddNumberErrMsg    = "Ignored key without a value."
 	_nonStringKeyErrMsg = "Ignored key-value pairs with non-string keys."
+	_logFileName        = "itrlog_"
+	_logFolderName      = "logs"
+	_logMaxSizeInMB     = 100
+	_logMaxAgeInDays    = 0
 )
 
 // ITRLogger contains the necessary information to initialize the required parameters for the itrlog package.
@@ -23,10 +29,13 @@ type ITRLogger struct {
 	LogFolderName, LogInitial string
 	Sugar                     *zap.SugaredLogger
 	Base                      *zap.Logger
+	mu                        sync.Mutex // ensures atomic writes; protects the following fields
 }
 
 // LogTimeFormat formats the event timestamp.
 const LogTimeFormat string = "Jan-02-2006 03:04:05 PM"
+
+var s *ITRLogger
 
 // InitLog initialize the zap and lumberjack logger library.
 // Example log file: logs/app_name_2020-02-28.log
@@ -58,75 +67,103 @@ func InitLog(maxSizeInMB, maxAgeInDays int, logFolderName, logInitial string) *I
 	}
 }
 
+func init() {
+	// Set initial itrlog required settings.
+	s = InitLog(_logMaxSizeInMB, _logMaxAgeInDays, _logFolderName, _logFileName)
+}
+
+// SetLogInit sets the custom log required initializations for the itr logger.
+func SetLogInit(maxSizeInMB, maxAgeInDays int, logFolderName, logFileName string) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	// Set some default minimal requirements
+	if maxSizeInMB <= 0 {
+		maxSizeInMB = _logMaxSizeInMB
+	}
+	if maxAgeInDays < 0 {
+		maxAgeInDays = _logMaxAgeInDays
+	}
+	if len(strings.TrimSpace(logFolderName)) == 0 {
+		logFolderName = _logFolderName
+	}
+	if len(strings.TrimSpace(logFileName)) == 0 {
+		logFileName = _logFileName
+	}
+
+	// Re-configure the itrlog
+	s = InitLog(maxSizeInMB, maxAgeInDays, logFolderName, logFileName)
+}
+
 // Debug uses fmt.Sprint to construct and log a message.
-func (s *ITRLogger) Debug(args ...interface{}) {
+func Debug(args ...interface{}) {
 	s.log(zap.DebugLevel, "", args, nil)
 }
 
 // Info uses fmt.Sprint to construct and log a message.
-func (s *ITRLogger) Info(args ...interface{}) {
+func Info(args ...interface{}) {
 	s.log(zap.InfoLevel, "", args, nil)
 }
 
 // Warn uses fmt.Sprint to construct and log a message.
-func (s *ITRLogger) Warn(args ...interface{}) {
+func Warn(args ...interface{}) {
 	s.log(zap.WarnLevel, "", args, nil)
 }
 
 // Error uses fmt.Sprint to construct and log a message.
-func (s *ITRLogger) Error(args ...interface{}) {
+func Error(args ...interface{}) {
 	s.log(zap.ErrorLevel, "", args, nil)
 }
 
 // DPanic uses fmt.Sprint to construct and log a message. In development, the
 // logger then panics. (See DPanicLevel for details.)
-func (s *ITRLogger) DPanic(args ...interface{}) {
+func DPanic(args ...interface{}) {
 	s.log(zap.DPanicLevel, "", args, nil)
 }
 
 // Panic uses fmt.Sprint to construct and log a message, then panics.
-func (s *ITRLogger) Panic(args ...interface{}) {
+func Panic(args ...interface{}) {
 	s.log(zap.PanicLevel, "", args, nil)
 }
 
 // Fatal uses fmt.Sprint to construct and log a message, then calls os.Exit.
-func (s *ITRLogger) Fatal(args ...interface{}) {
+func Fatal(args ...interface{}) {
 	s.log(zap.FatalLevel, "", args, nil)
 }
 
 // Debugf uses fmt.Sprintf to log a templated message.
-func (s *ITRLogger) Debugf(template string, args ...interface{}) {
+func Debugf(template string, args ...interface{}) {
 	s.log(zap.DebugLevel, template, args, nil)
 }
 
 // Infof uses fmt.Sprintf to log a templated message.
-func (s *ITRLogger) Infof(template string, args ...interface{}) {
+func Infof(template string, args ...interface{}) {
 	s.log(zap.InfoLevel, template, args, nil)
 }
 
 // Warnf uses fmt.Sprintf to log a templated message.
-func (s *ITRLogger) Warnf(template string, args ...interface{}) {
+func Warnf(template string, args ...interface{}) {
 	s.log(zap.WarnLevel, template, args, nil)
 }
 
 // Errorf uses fmt.Sprintf to log a templated message.
-func (s *ITRLogger) Errorf(template string, args ...interface{}) {
+func Errorf(template string, args ...interface{}) {
 	s.log(zap.ErrorLevel, template, args, nil)
 }
 
 // DPanicf uses fmt.Sprintf to log a templated message. In development, the
 // logger then panics. (See DPanicLevel for details.)
-func (s *ITRLogger) DPanicf(template string, args ...interface{}) {
+func DPanicf(template string, args ...interface{}) {
 	s.Sugar.DPanicf(template, args)
 }
 
 // Panicf uses fmt.Sprintf to log a templated message, then panics.
-func (s *ITRLogger) Panicf(template string, args ...interface{}) {
+func Panicf(template string, args ...interface{}) {
 	s.log(zap.DPanicLevel, template, args, nil)
 }
 
 // Fatalf uses fmt.Sprintf to log a templated message, then calls os.Exit.
-func (s *ITRLogger) Fatalf(template string, args ...interface{}) {
+func Fatalf(template string, args ...interface{}) {
 	s.log(zap.PanicLevel, template, args, nil)
 }
 
@@ -135,44 +172,44 @@ func (s *ITRLogger) Fatalf(template string, args ...interface{}) {
 //
 // When debug-level logging is disabled, this is much faster than
 //  s.With(keysAndValues).Debug(msg)
-func (s *ITRLogger) Debugw(msg string, keysAndValues ...interface{}) {
+func Debugw(msg string, keysAndValues ...interface{}) {
 	s.log(zap.DebugLevel, msg, nil, keysAndValues)
 }
 
 // Infow logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
-func (s *ITRLogger) Infow(msg string, keysAndValues ...interface{}) {
+func Infow(msg string, keysAndValues ...interface{}) {
 	s.log(zap.InfoLevel, msg, nil, keysAndValues)
 }
 
 // Warnw logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
-func (s *ITRLogger) Warnw(msg string, keysAndValues ...interface{}) {
+func Warnw(msg string, keysAndValues ...interface{}) {
 	s.log(zap.WarnLevel, msg, nil, keysAndValues)
 }
 
 // Errorw logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
-func (s *ITRLogger) Errorw(msg string, keysAndValues ...interface{}) {
+func Errorw(msg string, keysAndValues ...interface{}) {
 	s.log(zap.ErrorLevel, msg, nil, keysAndValues)
 }
 
 // DPanicw logs a message with some additional context. In development, the
 // logger then panics. (See DPanicLevel for details.) The variadic key-value
 // pairs are treated as they are in With.
-func (s *ITRLogger) DPanicw(msg string, keysAndValues ...interface{}) {
+func DPanicw(msg string, keysAndValues ...interface{}) {
 	s.log(zap.DPanicLevel, msg, nil, keysAndValues)
 }
 
 // Panicw logs a message with some additional context, then panics. The
 // variadic key-value pairs are treated as they are in With.
-func (s *ITRLogger) Panicw(msg string, keysAndValues ...interface{}) {
+func Panicw(msg string, keysAndValues ...interface{}) {
 	s.log(zap.PanicLevel, msg, nil, keysAndValues)
 }
 
 // Fatalw logs a message with some additional context, then calls os.Exit. The
 // variadic key-value pairs are treated as they are in With.
-func (s *ITRLogger) Fatalw(msg string, keysAndValues ...interface{}) {
+func Fatalw(msg string, keysAndValues ...interface{}) {
 	s.log(zap.FatalLevel, msg, nil, keysAndValues)
 }
 
