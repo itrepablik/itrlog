@@ -72,8 +72,8 @@ func init() {
 	s = InitLog(_logMaxSizeInMB, _logMaxAgeInDays, _logFolderName, _logFileName)
 }
 
-// SetLogInit sets the custom log required initializations for the itr logger.
-func SetLogInit(maxSizeInMB, maxAgeInDays int, logFolderName, logFileName string) {
+// SetLogInit sets the log required initializations for the itr logger.
+func SetLogInit(maxSizeInMB, maxAgeInDays int, logFolderName, logFileName string) *ITRLogger {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -93,6 +93,7 @@ func SetLogInit(maxSizeInMB, maxAgeInDays int, logFolderName, logFileName string
 
 	// Re-configure the itrlog
 	s = InitLog(maxSizeInMB, maxAgeInDays, logFolderName, logFileName)
+	return s
 }
 
 // Debug uses fmt.Sprint to construct and log a message.
