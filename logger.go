@@ -68,11 +68,11 @@ func InitLog(maxSizeInMB, maxAgeInDays int, logFolderName, logInitial string) *I
 }
 
 func init() {
-	// Set initial itrlog required settings.
+	// Set initial default itrlog required settings.
 	s = InitLog(_logMaxSizeInMB, _logMaxAgeInDays, _logFolderName, _logFileName)
 }
 
-// SetLogInit sets the log required initializations for the itr logger.
+// SetLogInit sets the custom log requirement to initialize the itr logger.
 func SetLogInit(maxSizeInMB, maxAgeInDays int, logFolderName, logFileName string) *ITRLogger {
 	s.mu.Lock()
 	defer s.mu.Unlock()
