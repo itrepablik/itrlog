@@ -28,6 +28,12 @@ func main() {
 	itrlog.Warn("basic warning log output...")
 	itrlog.Debug("basic debug log output...")
 	
+	// Similar to the standard Go's fmt or log formatting
+	itrlog.Infof("started API on port: %s", port)
+	itrlog.Errorf("server started at: %s", time.Now().Format(time.RFC3339))
+	itrlog.Warnf("fetched data results: %v", results)
+	itrlog.Debugf("debugging starts here: %v", err)
+	
 	// Structured context as loosely typed key-value pairs.
 	itrlog.Infow("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
 	itrlog.Errorw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
