@@ -3,13 +3,13 @@
 The simplified usage of [Zap](https://github.com/uber-go/zap) and [Lumberjack](https://github.com/natefinch/lumberjack) logging systems in Go for easier usage of the library.
 
 # Installation
-```
+```go
 go get -u github.com/itrepablik/itrlog
 ```
 
 # Usage
 This is how you can use the simplified initializations for Zap and Lumberjack logging libraries.
-```
+```go
 package main
 
 import (
