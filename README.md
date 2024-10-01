@@ -41,17 +41,17 @@ func main() {
 	itrlog.Debugw("New User", "username", "admin", "email", "email@site.com", "log_time", time.Now().Format(itrlog.LogTimeFormat))
 }
 ```
-It will auto-create the **logs** folder in the root directory of your project, but, of course, it's up to you which directory to point your log files and the **test_log_** is the initial log filename.  The logging output it's a **JSON** format for easy integration with any of your existing software to keep track of the logs information.
+It will auto-create the **logs** folder in the root directory of your project, but of course, it's up to you which directory to point your log files to. The **test_log_** is the initial log filename. The logging output is in a **JSON** format for easy integration with any of your existing software to keep track of the log information.
 
 ## Used By
 
 The following projects use this project:
 
-[![Used By](https://img.shields.io/github/dependents-repo/itrepablik/itrlog?label=Projects%20Using%20itrlog)](https://github.com/itrepablik/itrlog/network/dependents)
+https://github.com/itrepablik/itrlog/network/dependents
 
 # Subscribe to Maharlikans Code Youtube Channel:
-Please consider subscribing to my Youtube Channel to recognize my work on any of my tutorial series. Thank you so much for your support!
+Please consider subscribing to my YouTube channel to recognize my work on any of my tutorial series. Thank you so much for your support!
 https://www.youtube.com/c/MaharlikansCode?sub_confirmation=1
 
 # License
-Code is distributed under MIT license, feel free to use it in your proprietary projects as well.
+I've shared the code under the MIT license, feel free to use it in your proprietary projects as well.
